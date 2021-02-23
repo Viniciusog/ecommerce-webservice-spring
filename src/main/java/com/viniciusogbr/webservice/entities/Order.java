@@ -7,7 +7,9 @@ import com.viniciusogbr.webservice.entities.enums.OrderStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order") //Mudando o nome da tabela para não gerar conflito com palavras reservadas
@@ -35,6 +37,10 @@ public class Order implements Serializable {
     //Nome da chave estrangeira de User na tabela Order
     @JoinColumn(name = "client_id")
     private User client;
+
+    //Está mapeado para Order em OrderItemPK
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Order() {
 
@@ -79,6 +85,10 @@ public class Order implements Serializable {
         if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
+    }
+
+    public Set<OrderItem> getItems() {
+        return this.items;
     }
 
     @Override

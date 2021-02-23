@@ -1,15 +1,9 @@
 package com.viniciusogbr.webservice.config;
 
 
-import com.viniciusogbr.webservice.entities.Category;
-import com.viniciusogbr.webservice.entities.Order;
-import com.viniciusogbr.webservice.entities.Product;
-import com.viniciusogbr.webservice.entities.User;
+import com.viniciusogbr.webservice.entities.*;
 import com.viniciusogbr.webservice.entities.enums.OrderStatus;
-import com.viniciusogbr.webservice.repositories.CategoryRepository;
-import com.viniciusogbr.webservice.repositories.OrderRepository;
-import com.viniciusogbr.webservice.repositories.ProductRepository;
-import com.viniciusogbr.webservice.repositories.UserRepository;
+import com.viniciusogbr.webservice.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +27,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
     //Tudo o que estiver dentro desse método será executado quando o programa iniciar
     @Override
@@ -83,7 +80,13 @@ public class TestConfig implements CommandLineRunner {
         //-----------------------------------------------
 
 
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
+
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
 
     }

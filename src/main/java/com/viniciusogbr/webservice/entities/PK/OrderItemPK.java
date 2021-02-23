@@ -1,5 +1,6 @@
 package com.viniciusogbr.webservice.entities.PK;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viniciusogbr.webservice.entities.Order;
 import com.viniciusogbr.webservice.entities.Product;
 

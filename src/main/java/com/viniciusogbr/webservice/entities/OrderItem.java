@@ -1,5 +1,6 @@
 package com.viniciusogbr.webservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.viniciusogbr.webservice.entities.PK.OrderItemPK;
 
 import javax.persistence.EmbeddedId;
@@ -17,7 +18,7 @@ public class OrderItem implements Serializable {
 
     //Id composto por Order e Product
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
     private Integer quantity;
     private Double price;
 
@@ -25,7 +26,7 @@ public class OrderItem implements Serializable {
 
     }
 
-    public OrderItem(Product product, Order order, Integer quantity, Double price) {
+    public OrderItem(Order order, Product product,Integer quantity, Double price) {
         this.id.setProduct(product);
         this.id.setOrder(order);
         this.quantity = quantity;
@@ -40,6 +41,10 @@ public class OrderItem implements Serializable {
         this.id.setProduct(product);
     }
 
+    //Nesse caso precisamos colocar o JSon ignore no get, pois ele que chama o atributo Order
+    //na classe OrderItemPK
+
+    @JsonIgnore
     public Order getOrder() {
         return this.id.getOrder();
     }
