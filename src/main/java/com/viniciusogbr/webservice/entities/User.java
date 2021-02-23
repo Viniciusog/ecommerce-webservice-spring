@@ -1,5 +1,7 @@
 package com.viniciusogbr.webservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,6 +22,8 @@ public class User implements Serializable {
     private String phone;
     private String password;
 
+    //Não deixa gerar loop - Ao carregar User, não carregará Order
+    @JsonIgnore
     //Um cliente (User) pode ter vários pedidos.
     //mappedBy: Esse atributo lá do outro lado da relação está mapeado pelo atributo 'client'
     @OneToMany(mappedBy = "client")
