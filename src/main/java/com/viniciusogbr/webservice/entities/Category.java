@@ -2,7 +2,9 @@ package com.viniciusogbr.webservice.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_category")
@@ -14,6 +16,11 @@ public class Category implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+
+    //@Transient impede o JPA de interpretar esse atributo (Apenas para testes)
+    @Transient
+    //Categoria não pode o mesmo produto repetido
+    private Set<Product> products = new HashSet<>();
 
     public Category() {
 
@@ -38,6 +45,18 @@ public class Category implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void addProduct(Product product) {
+        this.products.add(product);
+    }
+
+    public void removeProduct(Product product) {
+        this.products.remove(product);
+    }
+
+    public Set<Product> getProducts() {
+        return this.products;
     }
 
     @Override
