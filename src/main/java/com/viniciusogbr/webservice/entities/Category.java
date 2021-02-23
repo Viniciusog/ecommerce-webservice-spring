@@ -1,5 +1,7 @@
 package com.viniciusogbr.webservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,7 +20,10 @@ public class Category implements Serializable {
     private String name;
 
     //@Transient impede o JPA de interpretar esse atributo (Apenas para testes)
-    @Transient
+
+    @JsonIgnore
+    //Mapeado pelo atributo 'categories' na classe Product
+    @ManyToMany(mappedBy = "categories")
     //Categoria não pode o mesmo produto repetido
     private Set<Product> products = new HashSet<>();
 

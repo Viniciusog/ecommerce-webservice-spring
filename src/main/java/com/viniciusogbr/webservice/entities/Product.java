@@ -1,5 +1,7 @@
 package com.viniciusogbr.webservice.entities;
 
+import org.hibernate.annotations.FilterJoinTable;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -22,7 +24,14 @@ public class Product implements Serializable {
     private String imgUrl;
 
     //@Transient impede o JPA de interpretar esse atributo (Apenas para testes)
-    @Transient
+
+    @ManyToMany
+    //tb_product_category = Nome da tabela de Muitos para Muitos que será gerada no banco
+    //product_id = Nome da chave estrangeira de Produto na tabela de Muitos para Muitos
+    //category_id = Nome da chave estrangeira de Categoria na tabela de Muitos para Muitos
+    @JoinTable(name = "tb_product_category",
+            joinColumns = @JoinColumn(name = "product_id")
+            , inverseJoinColumns = @JoinColumn(name = "category_id"))
     //Produto não pode ter mais de uma categoria repetida, por isso o uso do SET
     private Set<Category> categories = new HashSet<>();
 
@@ -86,7 +95,7 @@ public class Product implements Serializable {
         this.categories.remove(category);
     }
 
-    public Set<Category> getCategory() {
+    public Set<Category> getCategories() {
         return this.categories;
     }
 
