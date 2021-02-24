@@ -31,4 +31,18 @@ public class UserService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
+    public User update(Long id, User obj) {
+        //Apenas prepara o objeto user para depois fazer alguma modificação no banco de dados
+        User entity = userRepository.getOne(id);
+        updateData(entity, obj);
+        return userRepository.save(entity);
+    }
+
+    //Atualizar entity com base nos dados que chegaram no obj
+    private void updateData(User entity, User obj) {
+        entity.setEmail(obj.getEmail());
+        entity.setName(obj.getName());
+        entity.setPhone(obj.getPhone());
+    }
 }

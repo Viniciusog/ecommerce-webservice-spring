@@ -46,4 +46,12 @@ public class UserResource {
         //Retorna uma requisição sem conteúdo, apenas para mostrar que deletou com sucesso
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
+        //obj no parâmetro é o usuário atualizado
+        //Já o obj abaixo vem da confirmação da atualização no banco de dados
+        obj = userService.update(id, obj);
+        return ResponseEntity.ok().body(obj);
+    }
 }
