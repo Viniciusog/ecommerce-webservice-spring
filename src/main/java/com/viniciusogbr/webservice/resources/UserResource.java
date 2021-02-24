@@ -39,4 +39,11 @@ public class UserResource {
                .buildAndExpand(u.getId()).toUri();
        return ResponseEntity.created(uri).body(u);
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        userService.delete(id);
+        //Retorna uma requisição sem conteúdo, apenas para mostrar que deletou com sucesso
+        return ResponseEntity.noContent().build();
+    }
 }
