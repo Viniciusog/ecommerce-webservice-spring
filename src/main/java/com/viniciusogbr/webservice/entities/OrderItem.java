@@ -33,6 +33,8 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    //@JsonIgnore Para mostrar os produtos relacionados à OrderItem, a classe Product
+    //tem que estar relacionada com o atributo 'id.product'
     public Product getProduct() {
         return this.id.getProduct();
     }

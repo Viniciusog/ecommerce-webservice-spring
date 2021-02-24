@@ -88,6 +88,12 @@ public class TestConfig implements CommandLineRunner {
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
+        //Para salvar um objeto dependente 1 para 1 só precisamos adicionar esse objeto dependente
+        //no outro objeto (order) e salvar esse segundo objeto
+        Payment payment = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"), o1);
+        o1.setPayment(payment);
+        orderRepository.save(o1);
+
 
     }
 }

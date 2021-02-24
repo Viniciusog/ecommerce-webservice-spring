@@ -42,6 +42,11 @@ public class Order implements Serializable {
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
 
+    //CascadeType.ALL ==> Se o pedido tiver id 5, o pagamento desse pedido também terá id 5
+    //Temos o pagamento de Order mapeado pelo atributo Order na classe Payent
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order() {
 
     }
@@ -89,6 +94,14 @@ public class Order implements Serializable {
 
     public Set<OrderItem> getItems() {
         return this.items;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     @Override

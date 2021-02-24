@@ -1,5 +1,6 @@
 package com.viniciusogbr.webservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.FilterJoinTable;
 
 import javax.persistence.*;
@@ -34,6 +35,11 @@ public class Product implements Serializable {
             , inverseJoinColumns = @JoinColumn(name = "category_id"))
     //Produto não pode ter mais de uma categoria repetida, por isso o uso do SET
     private Set<Category> categories = new HashSet<>();
+
+    //Para quando quiser ver os Items de Pedidos de um produto específico
+    //Se tem vários OrderItem para um produto, então produto tem uma lista de OrderItem
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
 
     public Product() {
 
@@ -97,6 +103,17 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return this.categories;
+    }
+
+    //Criado apenas para caso venha utilizar
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> orders = new HashSet<>();
+        //Percorre a lista de items associadas ao nosso produto e pega as informações do pedido
+        for (OrderItem orderItem : items) {
+            orders.add(orderItem.getOrder());
+        }
+        return orders;
     }
 
     @Override
