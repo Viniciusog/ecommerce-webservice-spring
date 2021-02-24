@@ -13,6 +13,7 @@ import java.util.Objects;
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
 
+    //Os métodos get aparecem no Json
 
     private static final Long serialVersionUID = 1L;
 
@@ -69,6 +70,10 @@ public class OrderItem implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getSubTotal() {
+        return quantity * price;
     }
 
     @Override
