@@ -2,9 +2,13 @@ package com.viniciusogbr.webservice.services;
 
 import com.viniciusogbr.webservice.entities.User;
 import com.viniciusogbr.webservice.repositories.UserRepository;
+import com.viniciusogbr.webservice.services.exceptions.DatabaseException;
 import com.viniciusogbr.webservice.services.exceptions.ResourceNotFoundException;
+import org.hibernate.dialect.Database;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,7 +35,15 @@ public class UserService {
     }
 
     public void delete(Long id) {
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        } catch (DataIntegrityViolationException e) {
+            //Gerar exceção personalizada quando tentar
+            //deletar um usuário que contém relações no banco de dados
+            throw new DatabaseException(e.getMessage());
+        }
     }
 
     public User update(Long id, User obj) {

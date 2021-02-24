@@ -1,5 +1,6 @@
 package com.viniciusogbr.webservice.resources.exceptions;
 
+import com.viniciusogbr.webservice.services.exceptions.DatabaseException;
 import com.viniciusogbr.webservice.services.exceptions.ResourceNotFoundException;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,15 @@ public class ResourceExceptionHandler {
     public ResponseEntity<StandardError> resourceNotFound(ResourceNotFoundException e, HttpServletRequest request) {
         String error  = "Resource not found.";
         HttpStatus httpStatus = HttpStatus.NOT_FOUND;
+        StandardError standardError = new StandardError(Instant.now(), httpStatus.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(httpStatus).body(standardError);
+    }
+
+
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<StandardError> database(DatabaseException e, HttpServletRequest request) {
+        String error  = "Database error.";
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         StandardError standardError = new StandardError(Instant.now(), httpStatus.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(httpStatus).body(standardError);
     }
