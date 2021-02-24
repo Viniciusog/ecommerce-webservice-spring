@@ -2,6 +2,7 @@ package com.viniciusogbr.webservice.services;
 
 import com.viniciusogbr.webservice.entities.User;
 import com.viniciusogbr.webservice.repositories.UserRepository;
+import com.viniciusogbr.webservice.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,8 @@ public class UserService {
 
     public User findById(Long id) {
         Optional<User> optional =  userRepository.findById(id);
-        return optional.get();
+        //vai o .get() Caso tenha erro, gera uma exceção criada
+        return optional.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
     public User insert(User user) {
